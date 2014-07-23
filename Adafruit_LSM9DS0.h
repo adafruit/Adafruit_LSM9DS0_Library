@@ -34,9 +34,9 @@
 class Adafruit_LSM9DS0
 {
   public:
-    Adafruit_LSM9DS0();
-    Adafruit_LSM9DS0(int8_t xmcs, int8_t gcs);
-    Adafruit_LSM9DS0(int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs);
+    Adafruit_LSM9DS0 ( );
+    Adafruit_LSM9DS0 ( int8_t xmcs, int8_t gcs );
+    Adafruit_LSM9DS0 ( int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs );
 
     typedef enum
     {
@@ -125,38 +125,26 @@ class Adafruit_LSM9DS0
       LSM9DS0_GYROSCALE_2000DPS            = (0b10 << 4)   // +/- 2000 degrees per second rotation
     } lsm9ds0GyroScale_t;
     
-    typedef struct lsm9ds0AccelData_s
+    typedef struct vector_s
     {
       float x;
       float y;
       float z;
-    } lsm9ds0AccelData_t;
+    } lsm9ds0Vector_t;
     
-    typedef struct lsm9ds0GyroData_s
-    {
-      float x;
-      float y;
-      float z;
-    } lsm9ds0GyroData_t;
+    lsm9ds0Vector_t accelData;    // Last read accelerometer data will be available here
+    lsm9ds0Vector_t magData;      // Last read magnetometer data will be available here
+    lsm9ds0Vector_t gyroData;     // Last read gyroscope data will be available here
+    float           temperature;  // Last read temperzture data will be available here
     
-    typedef struct lsm9ds0MagData_s
-    {
-      float x;
-      float y;
-      float z;
-      float orientation;
-    } lsm9ds0MagData_t;
-
-    lsm9ds0AccelData_t accelData;    // Last read accelerometer data will be available here
-    lsm9ds0MagData_t   magData;      // Last read magnetometer data will be available here
-    lsm9ds0GyroData_t  gyroData;     // Last read gyroscope data will be available here
-    
-    bool    begin      ( void );
-    void    read       ( void );
-    void    setMagGain ( lsm9ds0MagGain_t gain );
-    void    write8     ( boolean type, byte reg, byte value );
-    byte    read8      ( boolean type, byte reg );
-    uint8_t spixfer    ( uint8_t data );
+    bool    begin       ( void );
+    void    read        ( void );
+    void    setupAccel  ( lsm9ds0AccelRange_t range, lm9ds0AccelDataRate_t datarate );
+    void    setupMag    ( lsm9ds0MagGain_t gain, lsm9ds0MagDataRate_t datarate );
+    void    setupGyro   ( lsm9ds0GyroScale_t scale );
+    void    write8      ( boolean type, byte reg, byte value );
+    byte    read8       ( boolean type, byte reg );
+    uint8_t spixfer     ( uint8_t data );
 
   private:
     boolean _i2c;

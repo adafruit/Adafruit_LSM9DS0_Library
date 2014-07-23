@@ -148,9 +148,7 @@ void Adafruit_LSM9DS0::read()
     magData.y = (ylo | (yhi << 8));
     magData.z = (zlo | (zhi << 8));  
 
-
     // Read gyro
-
     Wire.beginTransmission((byte)LSM9DS0_ADDRESS_GYRO);
     Wire.write(0x80 | LSM9DS0_REGISTER_OUT_X_L_G);
     Wire.endTransmission();
@@ -167,17 +165,25 @@ void Adafruit_LSM9DS0::read()
     zhi = Wire.read();
     gyroData.x = (xlo | (xhi << 8));
     gyroData.y = (ylo | (yhi << 8));
-    gyroData.z = (zlo | (zhi << 8));  
-    
+    gyroData.z = (zlo | (zhi << 8));
   }
 
   // ToDo: Calculate orientation
-  magData.orientation = 0.0;
 }
 
-void Adafruit_LSM9DS0::setMagGain(lsm9ds0MagGain_t gain)
+void Adafruit_LSM9DS0::setupAccel ( lsm9ds0AccelRange_t range, lm9ds0AccelDataRate_t datarate )
 {
+  
+}
 
+void Adafruit_LSM9DS0::setupMag ( lsm9ds0MagGain_t gain, lsm9ds0MagDataRate_t datarate )
+{
+  
+}
+
+void Adafruit_LSM9DS0::setupGyro ( lsm9ds0GyroScale_t scale )
+{
+  
 }
 
 /***************************************************************************
