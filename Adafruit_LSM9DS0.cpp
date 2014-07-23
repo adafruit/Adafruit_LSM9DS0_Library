@@ -20,7 +20,6 @@
 // default
 Adafruit_LSM9DS0::Adafruit_LSM9DS0() {
   _i2c = true;
-
 }
 
 Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t xmcs, int8_t gcs) {
@@ -45,7 +44,6 @@ bool Adafruit_LSM9DS0::begin()
 {
   if (_i2c) {
     Wire.begin();
-    
   } else if (_clk == -1) {
     // Hardware SPI
     pinMode(_csxm, OUTPUT);
@@ -75,7 +73,7 @@ bool Adafruit_LSM9DS0::begin()
   if (id != LSM9DS0_XM_ID) 
     return false;
 
-   id = read8(GYROTYPE, LSM9DS0_REGISTER_WHO_AM_I_G);
+  id = read8(GYROTYPE, LSM9DS0_REGISTER_WHO_AM_I_G);
   Serial.print ("G whoami: 0x");
   Serial.println(id, HEX);
   if (id != LSM9DS0_G_ID) 
@@ -177,7 +175,7 @@ void Adafruit_LSM9DS0::read()
   magData.orientation = 0.0;
 }
 
-void Adafruit_LSM9DS0::setMagGain(lsm9ds0MagGain gain)
+void Adafruit_LSM9DS0::setMagGain(lsm9ds0MagGain_t gain)
 {
 
 }
