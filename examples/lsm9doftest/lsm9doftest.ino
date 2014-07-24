@@ -8,6 +8,27 @@ Adafruit_LSM9DS0 lsm;
 // SPI
 //Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(A5, 12, A4, 10, 9);
 
+void setupSensor()
+{
+  // 1.) Set the accelerometer range
+  lsm.setupAccel(lsm.LSM9DS0_ACCELRANGE_2G);
+  //lsm.setupAccel(lsm.LSM9DS0_ACCELRANGE_4G);
+  //lsm.setupAccel(lsm.LSM9DS0_ACCELRANGE_6G);
+  //lsm.setupAccel(lsm.LSM9DS0_ACCELRANGE_8G);
+  //lsm.setupAccel(lsm.LSM9DS0_ACCELRANGE_16G);
+  
+  // 2.) Set the magnetometer sensitivity
+  lsm.setupMag(lsm.LSM9DS0_MAGGAIN_2GAUSS);
+  //lsm.setupMag(lsm.LSM9DS0_MAGGAIN_4GAUSS);
+  //lsm.setupMag(lsm.LSM9DS0_MAGGAIN_8GAUSS);
+  //lsm.setupMag(lsm.LSM9DS0_MAGGAIN_12GAUSS);
+
+  // 3.) Setup the gyroscope
+  lsm.setupGyro(lsm.LSM9DS0_GYROSCALE_245DPS);
+  //lsm.setupGyro(lsm.LSM9DS0_GYROSCALE_500DPS);
+  //lsm.setupGyro(lsm.LSM9DS0_GYROSCALE_2000DPS);
+}
+
 void setup() 
 {
   while (!Serial); // flora & leonardo
@@ -22,6 +43,9 @@ void setup()
     while (1);
   }
   Serial.println("Found LMS9DS0 9DOF");
+  Serial.println("");
+  Serial.println("Acceleration in mg, Mag field in gauss, angular velocity in DPS");
+  Serial.println("");
 }
 
 void loop() 

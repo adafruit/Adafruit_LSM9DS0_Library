@@ -64,6 +64,7 @@ class Adafruit_LSM9DS0
       LSM9DS0_REGISTER_WHO_AM_I_G          = 0x0F,
       LSM9DS0_REGISTER_CTRL_REG1_G         = 0x20,
       LSM9DS0_REGISTER_CTRL_REG3_G         = 0x22,
+      LSM9DS0_REGISTER_CTRL_REG4_G         = 0x23,
       LSM9DS0_REGISTER_OUT_X_L_G           = 0x28,
       LSM9DS0_REGISTER_OUT_X_H_G           = 0x29,
       LSM9DS0_REGISTER_OUT_Y_L_G           = 0x2A,
@@ -87,7 +88,9 @@ class Adafruit_LSM9DS0
       LSM9DS0_REGISTER_INT_CTRL_REG_M      = 0x12,
       LSM9DS0_REGISTER_INT_SRC_REG_M       = 0x13,
       LSM9DS0_REGISTER_CTRL_REG1_XM        = 0x20,
+      LSM9DS0_REGISTER_CTRL_REG2_XM        = 0x21,
       LSM9DS0_REGISTER_CTRL_REG5_XM        = 0x24,
+      LSM9DS0_REGISTER_CTRL_REG6_XM        = 0x25,
       LSM9DS0_REGISTER_CTRL_REG7_XM        = 0x26,
       LSM9DS0_REGISTER_OUT_X_L_A           = 0x28,
       LSM9DS0_REGISTER_OUT_X_H_A           = 0x29,
@@ -160,8 +163,8 @@ class Adafruit_LSM9DS0
     
     bool    begin       ( void );
     void    read        ( void );
-    void    setupAccel  ( lsm9ds0AccelRange_t range, lm9ds0AccelDataRate_t datarate );
-    void    setupMag    ( lsm9ds0MagGain_t gain, lsm9ds0MagDataRate_t datarate );
+    void    setupAccel  ( lsm9ds0AccelRange_t range );
+    void    setupMag    ( lsm9ds0MagGain_t gain );
     void    setupGyro   ( lsm9ds0GyroScale_t scale );
     void    write8      ( boolean type, byte reg, byte value );
     byte    read8       ( boolean type, byte reg );
@@ -171,6 +174,9 @@ class Adafruit_LSM9DS0
     boolean _i2c;
     int8_t  _csg, _csxm, _mosi, _miso, _clk;
     uint8_t mySPCR, SPCRback;
+    float   _accel_mg_lsb;
+    float   _mag_mgauss_lsb;
+    float   _gyro_dps_digit;      
 };
 
 #endif

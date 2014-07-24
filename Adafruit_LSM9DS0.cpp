@@ -98,6 +98,11 @@ bool Adafruit_LSM9DS0::begin()
   }
   */
 
+  // Set default ranges for the various sensors  
+  setupAccel(LSM9DS0_ACCELRANGE_2G);
+  setupMag(LSM9DS0_MAGGAIN_2GAUSS);
+  setupGyro(LSM9DS0_GYROSCALE_245DPS);
+
   return true;
 }
 
@@ -185,22 +190,91 @@ void Adafruit_LSM9DS0::read()
     temperature = (xlo | (xhi << 8));
   }
 
+  // ToDo: Move to Unified object, but for now convert to SI direct
+  accelData.x *= _accel_mg_lsb;
+  accelData.y *= _accel_mg_lsb;
+  accelData.z *= _accel_mg_lsb;
+  magData.x *= _mag_mgauss_lsb;
+  magData.y *= _mag_mgauss_lsb;
+  magData.z *= _mag_mgauss_lsb;
+  gyroData.x *= _gyro_dps_digit;
+  gyroData.y *= _gyro_dps_digit;
+  gyroData.z *= _gyro_dps_digit;
+  temperature /= LSM9DS0_TEMP_LSB_DEGREE_CELSIUS;
+
   // ToDo: Calculate orientation
 }
 
-void Adafruit_LSM9DS0::setupAccel ( lsm9ds0AccelRange_t range, lm9ds0AccelDataRate_t datarate )
+void Adafruit_LSM9DS0::setupAccel ( lsm9ds0AccelRange_t range )
 {
+  uint8_t reg = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG2_XM);
+  reg &= ~(0b00111000);
+  reg |= range;
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG2_XM, reg );
   
+  switch (range)
+  {
+    case LSM9DS0_ACCELRANGE_2G:
+      _accel_mg_lsb = LSM9DS0_ACCEL_MG_LSB_2G;
+      break;
+    case LSM9DS0_ACCELRANGE_4G:
+      _accel_mg_lsb = LSM9DS0_ACCEL_MG_LSB_4G;
+      break;
+    case LSM9DS0_ACCELRANGE_6G:
+      _accel_mg_lsb = LSM9DS0_ACCEL_MG_LSB_6G;
+      break;
+    case LSM9DS0_ACCELRANGE_8G:
+      _accel_mg_lsb = LSM9DS0_ACCEL_MG_LSB_8G;
+      break;    
+    case LSM9DS0_ACCELRANGE_16G:
+      _accel_mg_lsb = LSM9DS0_ACCEL_MG_LSB_16G;
+      break;
+  }
 }
 
-void Adafruit_LSM9DS0::setupMag ( lsm9ds0MagGain_t gain, lsm9ds0MagDataRate_t datarate )
+void Adafruit_LSM9DS0::setupMag ( lsm9ds0MagGain_t gain )
 {
-  
+  uint8_t reg = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG6_XM);
+  reg &= ~(0b01100000);
+  reg |= gain;
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG6_XM, reg );
+
+  switch(gain)
+  {
+    case LSM9DS0_MAGGAIN_2GAUSS:
+      _mag_mgauss_lsb = LSM9DS0_MAG_MGAUSS_LSB_2GAUSS;
+      break;
+    case LSM9DS0_MAGGAIN_4GAUSS:
+      _mag_mgauss_lsb = LSM9DS0_MAG_MGAUSS_LSB_4GAUSS;
+      break;
+    case LSM9DS0_MAGGAIN_8GAUSS:
+      _mag_mgauss_lsb = LSM9DS0_MAG_MGAUSS_LSB_8GAUSS;
+      break;
+    case LSM9DS0_MAGGAIN_12GAUSS:
+      _mag_mgauss_lsb = LSM9DS0_MAG_MGAUSS_LSB_12GAUSS;
+      break;
+  }
 }
 
 void Adafruit_LSM9DS0::setupGyro ( lsm9ds0GyroScale_t scale )
 {
-  
+  uint8_t reg = read8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG4_G);
+  reg &= ~(0b00110000);
+  reg |= scale;
+  write8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG4_G, reg );
+
+  switch(scale)
+  {
+    case LSM9DS0_GYROSCALE_245DPS:
+      _gyro_dps_digit = LSM9DS0_GYRO_DPS_DIGIT_245DPS;
+      break;
+    case LSM9DS0_GYROSCALE_500DPS:
+      _gyro_dps_digit = LSM9DS0_GYRO_DPS_DIGIT_500DPS;
+      break;
+    case LSM9DS0_GYROSCALE_2000DPS:
+      _gyro_dps_digit = LSM9DS0_GYRO_DPS_DIGIT_2000DPS;
+      break;
+  }
 }
 
 /***************************************************************************
