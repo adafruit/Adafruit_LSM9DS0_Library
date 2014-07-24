@@ -26,8 +26,6 @@ void setup()
 
 void loop() 
 {
-  
-  
   lsm.read();
 
   Serial.print("Accel X: "); Serial.print((int)lsm.accelData.x); Serial.print(" ");
@@ -36,8 +34,9 @@ void loop()
   Serial.print("Mag X: "); Serial.print((int)lsm.magData.x);     Serial.print(" ");
   Serial.print("Y: "); Serial.print((int)lsm.magData.y);         Serial.print(" ");
   Serial.print("Z: "); Serial.println((int)lsm.magData.z);       Serial.print(" ");
-  Serial.print("Gyro X: "); Serial.print((int)lsm.gyroData.x);     Serial.print(" ");
-  Serial.print("Y: "); Serial.print((int)lsm.gyroData.y);         Serial.print(" ");
-  Serial.print("Z: "); Serial.println((int)lsm.gyroData.z);       Serial.println(" ");
+  Serial.print("Gyro X: "); Serial.print((int)lsm.gyroData.x);   Serial.print(" ");
+  Serial.print("Y: "); Serial.print((int)lsm.gyroData.y);        Serial.print(" ");
+  Serial.print("Z: "); Serial.println((int)lsm.gyroData.z);      Serial.println(" ");
+  Serial.print("Temp: "); Serial.print((int)lsm.temperature); Serial.print("/0x"); Serial.print((int)lsm.temperature, HEX); Serial.println(" ");
   delay(200);
 }

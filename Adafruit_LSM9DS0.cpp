@@ -68,17 +68,16 @@ bool Adafruit_LSM9DS0::begin()
   }
 
   uint8_t id = read8(XMTYPE, LSM9DS0_REGISTER_WHO_AM_I_XM);
-  Serial.print ("XM whoami: 0x");
-  Serial.println(id, HEX);
+  // Serial.print ("XM whoami: 0x");
+  // Serial.println(id, HEX);
   if (id != LSM9DS0_XM_ID) 
     return false;
 
   id = read8(GYROTYPE, LSM9DS0_REGISTER_WHO_AM_I_G);
-  Serial.print ("G whoami: 0x");
-  Serial.println(id, HEX);
+  // Serial.print ("G whoami: 0x");
+  // Serial.println(id, HEX);
   if (id != LSM9DS0_G_ID) 
     return false;
-
 
   // Enable the accelerometer continous
   write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM, 0x67); // 100hz XYZ
@@ -87,6 +86,9 @@ bool Adafruit_LSM9DS0::begin()
   write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM, 0b00000000);
   // enable gyro continuous
   write8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G, 0x0F); // on XYZ
+  // enable the temperature sensor (output rate same as the mag sensor)
+  uint8_t tempReg = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG5_XM);
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG5_XM, tempReg | (1<<7));
   
   /*
   for (uint8_t i=0; i<0x30; i++) {
@@ -166,6 +168,21 @@ void Adafruit_LSM9DS0::read()
     gyroData.x = (xlo | (xhi << 8));
     gyroData.y = (ylo | (yhi << 8));
     gyroData.z = (zlo | (zhi << 8));
+    
+    // Read temp sensor
+    Wire.beginTransmission((byte)LSM9DS0_ADDRESS_ACCELMAG);
+    Wire.write(0x80 | LSM9DS0_REGISTER_TEMP_OUT_L_XM);
+    Wire.endTransmission();
+    Wire.requestFrom((byte)LSM9DS0_ADDRESS_ACCELMAG, (byte)2);
+
+    // Wait around until enough data is available
+    while (Wire.available() < 2);
+    
+    xlo = Wire.read();
+    xhi = Wire.read();
+    
+    // Shift values to create properly formed integer (low byte first)
+    temperature = (xlo | (xhi << 8));
   }
 
   // ToDo: Calculate orientation

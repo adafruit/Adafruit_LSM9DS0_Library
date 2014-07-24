@@ -28,8 +28,29 @@
 #define LSM9DS0_XM_ID                      (0b01001001)
 #define LSM9DS0_G_ID                       (0b11010100)
 
-#define GYROTYPE  true
-#define XMTYPE    false
+// Linear Acceleration: mg per LSB
+#define LSM9DS0_ACCEL_MG_LSB_2G            (0.061F)
+#define LSM9DS0_ACCEL_MG_LSB_4G            (0.122F)
+#define LSM9DS0_ACCEL_MG_LSB_6G            (0.183F)
+#define LSM9DS0_ACCEL_MG_LSB_8G            (0.244F)
+#define LSM9DS0_ACCEL_MG_LSB_16G           (0.732F)  // Is this right? Was expecting 0.488F
+
+// Magnetic Field Strength: mgauss per LSB
+#define LSM9DS0_MAG_MGAUSS_LSB_2GAUSS      (0.08F)
+#define LSM9DS0_MAG_MGAUSS_LSB_4GAUSS      (0.16F)
+#define LSM9DS0_MAG_MGAUSS_LSB_8GAUSS      (0.32F)
+#define LSM9DS0_MAG_MGAUSS_LSB_12GAUSS     (0.48F)
+
+// Angular Rate: dps per LSB
+#define LSM9DS0_GYRO_DPS_DIGIT_245DPS      (0.00875F)
+#define LSM9DS0_GYRO_DPS_DIGIT_500DPS      (0.01750F)
+#define LSM9DS0_GYRO_DPS_DIGIT_2000DPS     (0.07000F)
+
+// Temperature: LSB per degree celsius
+#define LSM9DS0_TEMP_LSB_DEGREE_CELSIUS    (8)  // 1°C = 8, 25° = 200, etc.
+
+#define GYROTYPE                           (true)
+#define XMTYPE                             (false)
 
 class Adafruit_LSM9DS0
 {
@@ -135,7 +156,7 @@ class Adafruit_LSM9DS0
     lsm9ds0Vector_t accelData;    // Last read accelerometer data will be available here
     lsm9ds0Vector_t magData;      // Last read magnetometer data will be available here
     lsm9ds0Vector_t gyroData;     // Last read gyroscope data will be available here
-    float           temperature;  // Last read temperzture data will be available here
+    int16_t         temperature;  // Last read temperzture data will be available here
     
     bool    begin       ( void );
     void    read        ( void );
