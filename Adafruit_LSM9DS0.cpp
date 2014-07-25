@@ -18,19 +18,27 @@
  CONSTRUCTOR
  ***************************************************************************/
 // default
-Adafruit_LSM9DS0::Adafruit_LSM9DS0() {
+Adafruit_LSM9DS0::Adafruit_LSM9DS0( int32_t sensorID ) {
   _i2c = true;
+  _lsm9dso_sensorid_accel = sensorID + 1;
+  _lsm9dso_sensorid_mag = sensorID + 2;
+  _lsm9dso_sensorid_gyro = sensorID + 3;
+  _lsm9dso_sensorid_temp = sensorID + 4;
 }
 
-Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t xmcs, int8_t gcs) {
+Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t xmcs, int8_t gcs, int32_t sensorID ) {
   _i2c = false;
   // hardware SPI!
   _csg = gcs;
   _csxm = xmcs;
   _mosi = _miso = _clk = -1;
+  _lsm9dso_sensorid_accel = sensorID + 1;
+  _lsm9dso_sensorid_mag = sensorID + 2;
+  _lsm9dso_sensorid_gyro = sensorID + 3;
+  _lsm9dso_sensorid_temp = sensorID + 4;
 }
 
-Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs) {
+Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs, int32_t sensorID ) {
   _i2c = false;
   // software SPI!
   _csg = gcs;
@@ -38,6 +46,10 @@ Adafruit_LSM9DS0::Adafruit_LSM9DS0(int8_t clk, int8_t miso, int8_t mosi, int8_t 
   _mosi = mosi;
   _miso = miso;
   _clk = clk;
+  _lsm9dso_sensorid_accel = sensorID + 1;
+  _lsm9dso_sensorid_mag = sensorID + 2;
+  _lsm9dso_sensorid_gyro = sensorID + 3;
+  _lsm9dso_sensorid_temp = sensorID + 4;
 }
 
 bool Adafruit_LSM9DS0::begin()
@@ -275,6 +287,124 @@ void Adafruit_LSM9DS0::setupGyro ( lsm9ds0GyroScale_t scale )
       _gyro_dps_digit = LSM9DS0_GYRO_DPS_DIGIT_2000DPS;
       break;
   }
+}
+
+/***************************************************************************
+ UNIFIED SENSOR FUNCTIONS
+ ***************************************************************************/
+
+/**************************************************************************/
+/*!
+    @brief  Gets the most recent accel sensor event
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::getEvent(sensors_event_t *accelEvent,
+                                sensors_event_t *magEvent,
+                                sensors_event_t *gyroEvent,
+                                sensors_event_t *tempEvent )
+{
+  /* Clear the events */
+  memset(accelEvent, 0, sizeof(sensors_event_t));
+  memset(magEvent, 0, sizeof(sensors_event_t));
+  memset(gyroEvent, 0, sizeof(sensors_event_t));
+  memset(tempEvent, 0, sizeof(sensors_event_t));
+
+  /* update the sensor data */
+  read();
+  uint32_t timestamp = millis();
+
+  /* Update the accelerometer data */  
+  accelEvent->version   = sizeof(sensors_event_t);
+  accelEvent->sensor_id = _lsm9dso_sensorid_accel;
+  accelEvent->type      = SENSOR_TYPE_ACCELEROMETER;
+  accelEvent->timestamp = timestamp;
+  accelEvent->acceleration.x = accelData.x;
+  accelEvent->acceleration.y = accelData.y;
+  accelEvent->acceleration.z = accelData.z;
+  
+  /* Update the magnetometer data */  
+  magEvent->version   = sizeof(sensors_event_t);
+  magEvent->sensor_id = _lsm9dso_sensorid_mag;
+  magEvent->type      = SENSOR_TYPE_MAGNETIC_FIELD;
+  magEvent->timestamp = timestamp;
+  magEvent->magnetic.x = magData.x;
+  magEvent->magnetic.y = magData.y;
+  magEvent->magnetic.z = magData.z;
+  
+  /* Update the gyroscope data */  
+  gyroEvent->version   = sizeof(sensors_event_t);
+  gyroEvent->sensor_id = _lsm9dso_sensorid_accel;
+  gyroEvent->type      = SENSOR_TYPE_GYROSCOPE;
+  gyroEvent->timestamp = timestamp;
+  gyroEvent->gyro.x = gyroData.x;
+  gyroEvent->gyro.y = gyroData.y;
+  gyroEvent->gyro.z = gyroData.z;
+  
+  /* Update the temperature data */
+  tempEvent->version   = sizeof(sensors_event_t);
+  tempEvent->sensor_id = _lsm9dso_sensorid_temp;
+  tempEvent->type      = SENSOR_TYPE_AMBIENT_TEMPERATURE;
+  tempEvent->timestamp = timestamp;
+  tempEvent->temperature = temperature;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Gets the sensor_t data
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::getSensor(sensor_t *accel, sensor_t *mag,
+                                 sensor_t *gyro, sensor_t *temp )
+{
+  /* Clear the sensor_t objects */
+  memset(accel, 0, sizeof(sensor_t));
+  memset(mag, 0, sizeof(sensor_t));
+  memset(gyro, 0, sizeof(sensor_t));
+  memset(temp, 0, sizeof(sensor_t));
+
+  /* Insert the sensor name in the fixed length char array */
+  strncpy (accel->name, "LSM9DS0_A", sizeof(accel->name) - 1);
+  accel->name[sizeof(accel->name)- 1] = 0;
+  accel->version     = 1;
+  accel->sensor_id   = _lsm9dso_sensorid_accel;
+  accel->type        = SENSOR_TYPE_ACCELEROMETER;
+  accel->min_delay   = 0;
+  accel->max_value   = 0.0;  // ToDo
+  accel->min_value   = 0.0;  // ToDo
+  accel->resolution  = 0.0;  // ToDo
+
+  /* Insert the sensor name in the fixed length char array */
+  strncpy (mag->name, "LSM9DS0_M", sizeof(mag->name) - 1);
+  mag->name[sizeof(mag->name)- 1] = 0;
+  mag->version     = 1;
+  mag->sensor_id   = _lsm9dso_sensorid_mag;
+  mag->type        = SENSOR_TYPE_MAGNETIC_FIELD;
+  mag->min_delay   = 0;
+  mag->max_value   = 0.0;  // ToDo
+  mag->min_value   = 0.0;  // ToDo
+  mag->resolution  = 0.0;  // ToDo
+
+  /* Insert the sensor name in the fixed length char array */
+  strncpy (gyro->name, "LSM9DS0_G", sizeof(gyro->name) - 1);
+  gyro->name[sizeof(gyro->name)- 1] = 0;
+  gyro->version     = 1;
+  gyro->sensor_id   = _lsm9dso_sensorid_gyro;
+  gyro->type        = SENSOR_TYPE_GYROSCOPE;
+  gyro->min_delay   = 0;
+  gyro->max_value   = 0.0;  // ToDo
+  gyro->min_value   = 0.0;  // ToDo
+  gyro->resolution  = 0.0;  // ToDo
+
+  /* Insert the sensor name in the fixed length char array */
+  strncpy (temp->name, "LSM9DS0_T", sizeof(temp->name) - 1);
+  temp->name[sizeof(temp->name)- 1] = 0;
+  temp->version     = 1;
+  temp->sensor_id   = _lsm9dso_sensorid_temp;
+  temp->type        = SENSOR_TYPE_AMBIENT_TEMPERATURE;
+  temp->min_delay   = 0;
+  temp->max_value   = 0.0;  // ToDo
+  temp->min_value   = 0.0;  // ToDo
+  temp->resolution  = 0.0;  // ToDo
 }
 
 /***************************************************************************

@@ -22,6 +22,7 @@
 #endif
 #include "Wire.h"
 #include <SPI.h>
+#include <Adafruit_Sensor.h>
 
 #define LSM9DS0_ADDRESS_ACCELMAG           (0x1D)         // 3B >> 1 = 7bit default
 #define LSM9DS0_ADDRESS_GYRO               (0x6B)         // D6 >> 1 = 7bit default
@@ -55,9 +56,9 @@
 class Adafruit_LSM9DS0
 {
   public:
-    Adafruit_LSM9DS0 ( );
-    Adafruit_LSM9DS0 ( int8_t xmcs, int8_t gcs );
-    Adafruit_LSM9DS0 ( int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs );
+    Adafruit_LSM9DS0 ( int32_t sensorID = 0 );
+    Adafruit_LSM9DS0 ( int8_t xmcs, int8_t gcs, int32_t sensorID = 0 );
+    Adafruit_LSM9DS0 ( int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs, int32_t sensorID = 0 );
 
     typedef enum
     {
@@ -169,6 +170,12 @@ class Adafruit_LSM9DS0
     void    write8      ( boolean type, byte reg, byte value );
     byte    read8       ( boolean type, byte reg );
     uint8_t spixfer     ( uint8_t data );
+    
+    /* Adafruit Unified Sensor Functions (not standard yet ... the current base class only */
+    /* supports one sensor type, and we need to update the unified base class to support   */
+    /* multiple sensors in a single driver, returning an array */
+    void getEvent  ( sensors_event_t* accel, sensors_event_t* mag, sensors_event_t* gyro, sensors_event_t* temp );    
+    void getSensor ( sensor_t* accel, sensor_t* mag, sensor_t* gyro, sensor_t* temp );
 
   private:
     boolean _i2c;
@@ -176,7 +183,11 @@ class Adafruit_LSM9DS0
     uint8_t mySPCR, SPCRback;
     float   _accel_mg_lsb;
     float   _mag_mgauss_lsb;
-    float   _gyro_dps_digit;      
+    float   _gyro_dps_digit;
+    int32_t _lsm9dso_sensorid_accel;
+    int32_t _lsm9dso_sensorid_mag;
+    int32_t _lsm9dso_sensorid_gyro;
+    int32_t _lsm9dso_sensorid_temp;
 };
 
 #endif

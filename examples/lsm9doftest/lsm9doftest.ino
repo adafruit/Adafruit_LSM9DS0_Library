@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_LSM9DS0.h>
+#include <Adafruit_Sensor.h>
 
 // i2c
 Adafruit_LSM9DS0 lsm;
