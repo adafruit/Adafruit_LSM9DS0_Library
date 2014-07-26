@@ -29,18 +29,19 @@
 #define LSM9DS0_XM_ID                      (0b01001001)
 #define LSM9DS0_G_ID                       (0b11010100)
 
-// Linear Acceleration: mg per LSB
-#define LSM9DS0_ACCEL_MG_LSB_2G            (0.061F)
-#define LSM9DS0_ACCEL_MG_LSB_4G            (0.122F)
-#define LSM9DS0_ACCEL_MG_LSB_6G            (0.183F)
-#define LSM9DS0_ACCEL_MG_LSB_8G            (0.244F)
-#define LSM9DS0_ACCEL_MG_LSB_16G           (0.732F)  // Is this right? Was expecting 0.488F
 
-// Magnetic Field Strength: mgauss per LSB
-#define LSM9DS0_MAG_MGAUSS_LSB_2GAUSS      (0.08F)
-#define LSM9DS0_MAG_MGAUSS_LSB_4GAUSS      (0.16F)
-#define LSM9DS0_MAG_MGAUSS_LSB_8GAUSS      (0.32F)
-#define LSM9DS0_MAG_MGAUSS_LSB_12GAUSS     (0.48F)
+// Linear Acceleration: mg per LSB
+#define LSM9DS0_ACCEL_MG_LSB_2G (0.061F)
+#define LSM9DS0_ACCEL_MG_LSB_4G (0.122F)
+#define LSM9DS0_ACCEL_MG_LSB_6G (0.183F)
+#define LSM9DS0_ACCEL_MG_LSB_8G (0.244F)
+#define LSM9DS0_ACCEL_MG_LSB_16G (0.732F) // Is this right? Was expecting 0.488F
+
+// Magnetic Field Strength: gauss range
+#define LSM9DS0_MAG_MGAUSS_2GAUSS      (0.08F)
+#define LSM9DS0_MAG_MGAUSS_4GAUSS      (0.16F)
+#define LSM9DS0_MAG_MGAUSS_8GAUSS      (0.32F)
+#define LSM9DS0_MAG_MGAUSS_12GAUSS     (0.48F)
 
 // Angular Rate: dps per LSB
 #define LSM9DS0_GYRO_DPS_DIGIT_245DPS      (0.00875F)

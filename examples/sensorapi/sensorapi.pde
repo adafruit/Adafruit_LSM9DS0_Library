@@ -19,7 +19,7 @@
    ===========
    Connect SCL to analog 5
    Connect SDA to analog 4
-   Connect VDD to 3.3V DC
+   Connect VDD to 5V DC
    Connect GROUND to common ground
 
    History
@@ -122,13 +122,13 @@ void setup(void)
   Serial.println(F("LSM9DS0 9DOF Sensor Test")); Serial.println("");
   
   /* Initialise the sensor */
-//  if(!lsm.begin())
-//  {
-//    /* There was a problem detecting the LSM9DS0 ... check your connections */
-//    Serial.print(F("Ooops, no LSM9DS0 detected ... Check your wiring or I2C ADDR!"));
-//    while(1);
-//  }
-//  Serial.println(F("Found LMS9DS0 9DOF"));
+  if(!lsm.begin())
+  {
+    /* There was a problem detecting the LSM9DS0 ... check your connections */
+    Serial.print(F("Ooops, no LSM9DS0 detected ... Check your wiring or I2C ADDR!"));
+    while(1);
+  }
+  Serial.println(F("Found LSM9DS0 9DOF"));
   
   /* Display some basic information on this sensor */
   displaySensorDetails();
@@ -150,7 +150,28 @@ void loop(void)
 {  
   /* Get a new sensor event */ 
   sensors_event_t accel, mag, gyro, temp;
-  lsm.getEvent(&accel, &mag, &gyro, &temp);
- 
+
+  lsm.getEvent(&accel, &mag, &gyro, &temp); 
+
+  // print out accelleration data
+  Serial.print("Accel X: "); Serial.print(accel.acceleration.x); Serial.print(" ");
+  Serial.print("\tY: "); Serial.print(accel.acceleration.y);       Serial.print(" ");
+  Serial.print("\tZ: "); Serial.print(accel.acceleration.z);     Serial.println("\tm/s^2");
+
+  // print out magnetometer data
+  Serial.print("Magn. X: "); Serial.print(mag.magnetic.x); Serial.print(" ");
+  Serial.print("\tY: "); Serial.print(mag.magnetic.y);       Serial.print(" ");
+  Serial.print("\tZ: "); Serial.print(mag.magnetic.z);     Serial.println("\tgauss");
+  
+  // print out gyroscopic data
+  Serial.print("Gyro  X: "); Serial.print(gyro.gyro.x); Serial.print(" ");
+  Serial.print("\tY: "); Serial.print(gyro.gyro.y);       Serial.print(" ");
+  Serial.print("\tZ: "); Serial.print(gyro.gyro.z);     Serial.println("\tdps");
+
+  // print out temperature data
+  Serial.print("Temp: "); Serial.print(temp.temperature); Serial.println(" *C");
+
+  Serial.println("**********************\n");
+
   delay(250);
 }
