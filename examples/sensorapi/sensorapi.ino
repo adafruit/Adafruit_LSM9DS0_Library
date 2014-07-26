@@ -155,18 +155,18 @@ void loop(void)
 
   // print out accelleration data
   Serial.print("Accel X: "); Serial.print(accel.acceleration.x); Serial.print(" ");
-  Serial.print("\tY: "); Serial.print(accel.acceleration.y);       Serial.print(" ");
-  Serial.print("\tZ: "); Serial.print(accel.acceleration.z);     Serial.println("\tm/s^2");
+  Serial.print("  \tY: "); Serial.print(accel.acceleration.y);       Serial.print(" ");
+  Serial.print("  \tZ: "); Serial.print(accel.acceleration.z);     Serial.println("  \tm/s^2");
 
   // print out magnetometer data
   Serial.print("Magn. X: "); Serial.print(mag.magnetic.x); Serial.print(" ");
-  Serial.print("\tY: "); Serial.print(mag.magnetic.y);       Serial.print(" ");
-  Serial.print("\tZ: "); Serial.print(mag.magnetic.z);     Serial.println("\tgauss");
+  Serial.print("  \tY: "); Serial.print(mag.magnetic.y);       Serial.print(" ");
+  Serial.print("  \tZ: "); Serial.print(mag.magnetic.z);     Serial.println("  \tgauss");
   
   // print out gyroscopic data
   Serial.print("Gyro  X: "); Serial.print(gyro.gyro.x); Serial.print(" ");
-  Serial.print("\tY: "); Serial.print(gyro.gyro.y);       Serial.print(" ");
-  Serial.print("\tZ: "); Serial.print(gyro.gyro.z);     Serial.println("\tdps");
+  Serial.print("  \tY: "); Serial.print(gyro.gyro.y);       Serial.print(" ");
+  Serial.print("  \tZ: "); Serial.print(gyro.gyro.z);     Serial.println("  \tdps");
 
   // print out temperature data
   Serial.print("Temp: "); Serial.print(temp.temperature); Serial.println(" *C");

@@ -1,13 +1,15 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_LSM9DS0.h>
-#include <Adafruit_Sensor.h>
+#include <Adafruit_Sensor.h>  // not used in this demo but required!
 
 // i2c
-Adafruit_LSM9DS0 lsm;
+Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0();
 
-// SPI
-//Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(A5, 12, A4, 10, 9);
+// You can also use software SPI
+//Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(13, 12, 11, 10, 9);
+// Or hardware SPI! In this case, only CS pins are passed in
+//Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(10, 9);
 
 void setupSensor()
 {
@@ -35,7 +37,7 @@ void setup()
   while (!Serial); // flora & leonardo
   
   Serial.begin(9600);
-  Serial.println("LSM demo");
+  Serial.println("LSM raw read demo");
   
   // Try to initialise and warn if we couldn't detect the chip
   if (!lsm.begin())
@@ -43,9 +45,8 @@ void setup()
     Serial.println("Oops ... unable to initialize the LSM9DS0. Check your wiring!");
     while (1);
   }
-  Serial.println("Found LMS9DS0 9DOF");
+  Serial.println("Found LSM9DS0 9DOF");
   Serial.println("");
-  Serial.println("Acceleration in mg, Mag field in gauss, angular velocity in DPS");
   Serial.println("");
 }
 
@@ -62,6 +63,6 @@ void loop()
   Serial.print("Gyro X: "); Serial.print((int)lsm.gyroData.x);   Serial.print(" ");
   Serial.print("Y: "); Serial.print((int)lsm.gyroData.y);        Serial.print(" ");
   Serial.print("Z: "); Serial.println((int)lsm.gyroData.z);      Serial.println(" ");
-  Serial.print("Temp: "); Serial.print((int)lsm.temperature); Serial.print("/0x"); Serial.print((int)lsm.temperature, HEX); Serial.println(" ");
+  Serial.print("Temp: "); Serial.print((int)lsm.temperature);    Serial.println(" ");
   delay(200);
 }
