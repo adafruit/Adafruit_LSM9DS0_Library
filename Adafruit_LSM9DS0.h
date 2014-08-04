@@ -169,7 +169,8 @@ class Adafruit_LSM9DS0
     void    setupMag    ( lsm9ds0MagGain_t gain );
     void    setupGyro   ( lsm9ds0GyroScale_t scale );
     void    write8      ( boolean type, byte reg, byte value );
-    byte    read8       ( boolean type, byte reg );
+    byte    read8       ( boolean type, byte reg);
+    byte    readBuffer  ( boolean type, byte reg, byte len, uint8_t *buffer);
     uint8_t spixfer     ( uint8_t data );
     
     /* Adafruit Unified Sensor Functions (not standard yet ... the current base class only */

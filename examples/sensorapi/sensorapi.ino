@@ -15,7 +15,7 @@
    provide an appropriate value in the constructor below (12345
    is used by default in this example).
    
-   Connections
+   Connections (For default I2C)
    ===========
    Connect SCL to analog 5
    Connect SDA to analog 4
@@ -28,7 +28,31 @@
 */
    
 /* Assign a unique base ID for this sensor */   
-Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(1000);
+Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(1000);  // Use I2C, ID #1000
+
+
+/* Or, use Hardware SPI:
+  SCK -> SPI CLK
+  SDA -> SPI MOSI
+  G_SDO + XM_SDO -> tied together to SPI MISO
+  then select any two pins for the two CS lines:
+*/
+
+#define LSM9DS0_XM_CS 10
+#define LSM9DS0_GYRO_CS 9
+//Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(LSM9DS0_XM_CS, LSM9DS0_GYRO_CS, 1000);
+
+/* Or, use Software SPI:
+  G_SDO + XM_SDO -> tied together to the MISO pin!
+  then select any pins for the SPI lines, and the two CS pins above
+*/
+
+#define LSM9DS0_SCLK 13
+#define LSM9DS0_MISO 12
+#define LSM9DS0_MOSI 11
+
+//Adafruit_LSM9DS0 lsm = Adafruit_LSM9DS0(LSM9DS0_SCLK, LSM9DS0_MISO, LSM9DS0_MOSI, LSM9DS0_XM_CS, LSM9DS0_GYRO_CS, 1000);
+
 
 /**************************************************************************/
 /*
@@ -118,6 +142,8 @@ void configureSensor(void)
 /**************************************************************************/
 void setup(void) 
 {
+  while (!Serial);  // wait for flora/leonardo
+  
   Serial.begin(9600);
   Serial.println(F("LSM9DS0 9DOF Sensor Test")); Serial.println("");
   

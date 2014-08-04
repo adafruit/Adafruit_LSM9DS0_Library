@@ -80,7 +80,7 @@ bool Adafruit_LSM9DS0::begin()
   }
 
   uint8_t id = read8(XMTYPE, LSM9DS0_REGISTER_WHO_AM_I_XM);
-  // Serial.print ("XM whoami: 0x");
+  //Serial.print ("XM whoami: 0x");
   // Serial.println(id, HEX);
   if (id != LSM9DS0_XM_ID) 
     return false;
@@ -123,98 +123,83 @@ bool Adafruit_LSM9DS0::begin()
  ***************************************************************************/
 void Adafruit_LSM9DS0::read()
 {
-  if (_i2c) {
-    // Read the accelerometer
-    Wire.beginTransmission((byte)LSM9DS0_ADDRESS_ACCELMAG);
-    Wire.write(0x80 | LSM9DS0_REGISTER_OUT_X_L_A);
-    Wire.endTransmission();
-    Wire.requestFrom((byte)LSM9DS0_ADDRESS_ACCELMAG, (byte)6);
-    
-    // Wait around until enough data is available
-    while (Wire.available() < 6);
-    
-    uint8_t xlo = Wire.read();
-    int16_t xhi = Wire.read();
-    uint8_t ylo = Wire.read();
-    int16_t yhi = Wire.read();
-    uint8_t zlo = Wire.read();
-    int16_t zhi = Wire.read();
-    
-    // Shift values to create properly formed integer (low byte first)
-    xhi <<= 8; xhi |= xlo;
-    yhi <<= 8; yhi |= ylo;
-    zhi <<= 8; zhi |= zlo;
-    accelData.x = xhi;
-    accelData.y = yhi;
-    accelData.z = zhi;
-    
-    // Read the magnetometer
-    Wire.beginTransmission((byte)LSM9DS0_ADDRESS_ACCELMAG);
-    Wire.write(0x80 | LSM9DS0_REGISTER_OUT_X_L_M);
-    Wire.endTransmission();
-    Wire.requestFrom((byte)LSM9DS0_ADDRESS_ACCELMAG, (byte)6);
-    
-    // Wait around until enough data is available
-    while (Wire.available() < 6);
-    
-    // Note high before low (different than accel)  
-    xlo = Wire.read();
-    xhi = Wire.read();
-    ylo = Wire.read();
-    yhi = Wire.read();
-    zlo = Wire.read();
-    zhi = Wire.read();
-    
-    // Shift values to create properly formed integer (low byte first)
-    xhi <<= 8; xhi |= xlo;
-    yhi <<= 8; yhi |= ylo;
-    zhi <<= 8; zhi |= zlo;
-    magData.x = xhi;
-    magData.y = yhi;
-    magData.z = zhi;
+  byte buffer[6];
 
-    // Read gyro
-    Wire.beginTransmission((byte)LSM9DS0_ADDRESS_GYRO);
-    Wire.write(0x80 | LSM9DS0_REGISTER_OUT_X_L_G);
-    Wire.endTransmission();
-    Wire.requestFrom((byte)LSM9DS0_ADDRESS_GYRO, (byte)6);
-    
-    // Wait around until enough data is available
-    while (Wire.available() < 6);
-    
-    xlo = Wire.read();
-    xhi = Wire.read();
-    ylo = Wire.read();
-    yhi = Wire.read();
-    zlo = Wire.read();
-    zhi = Wire.read();
-    // Shift values to create properly formed integer (low byte first)
-    xhi <<= 8; xhi |= xlo;
-    yhi <<= 8; yhi |= ylo;
-    zhi <<= 8; zhi |= zlo;
+  // Read the accelerometer
+  readBuffer(XMTYPE, 
+	     0x80 | LSM9DS0_REGISTER_OUT_X_L_A, 
+	     6, buffer);
+  
+  uint8_t xlo = buffer[0];
+  int16_t xhi = buffer[1];
+  uint8_t ylo = buffer[2];
+  int16_t yhi = buffer[3];
+  uint8_t zlo = buffer[4];
+  int16_t zhi = buffer[5];
+  
+  // Shift values to create properly formed integer (low byte first)
+  xhi <<= 8; xhi |= xlo;
+  yhi <<= 8; yhi |= ylo;
+  zhi <<= 8; zhi |= zlo;
+  accelData.x = xhi;
+  accelData.y = yhi;
+  accelData.z = zhi;
+  
+  
+  // Read the magnetometer
+  readBuffer(XMTYPE, 
+	     0x80 | LSM9DS0_REGISTER_OUT_X_L_M, 
+	     6, buffer);
+  
+  xlo = buffer[0];
+  xhi = buffer[1];
+  ylo = buffer[2];
+  yhi = buffer[3];
+  zlo = buffer[4];
+  zhi = buffer[5];
+  
+  // Shift values to create properly formed integer (low byte first)
+  xhi <<= 8; xhi |= xlo;
+  yhi <<= 8; yhi |= ylo;
+  zhi <<= 8; zhi |= zlo;
+  magData.x = xhi;
+  magData.y = yhi;
+  magData.z = zhi;
 
-    gyroData.x = xhi;
-    gyroData.y = yhi;
-    gyroData.z = zhi;
-    
-    // Read temp sensor
-    Wire.beginTransmission((byte)LSM9DS0_ADDRESS_ACCELMAG);
-    Wire.write(0x80 | LSM9DS0_REGISTER_TEMP_OUT_L_XM);
-    Wire.endTransmission();
-    Wire.requestFrom((byte)LSM9DS0_ADDRESS_ACCELMAG, (byte)2);
+  // Read gyro
+  readBuffer(GYROTYPE, 
+	     0x80 | LSM9DS0_REGISTER_OUT_X_L_G, 
+	     6, buffer);
+  
+  xlo = buffer[0];
+  xhi = buffer[1];
+  ylo = buffer[2];
+  yhi = buffer[3];
+  zlo = buffer[4];
+  zhi = buffer[5];
+  
+  // Shift values to create properly formed integer (low byte first)
+  xhi <<= 8; xhi |= xlo;
+  yhi <<= 8; yhi |= ylo;
+  zhi <<= 8; zhi |= zlo;
+  
+  gyroData.x = xhi;
+  gyroData.y = yhi;
+  gyroData.z = zhi;
+  
+  // Read temp sensor
+  readBuffer(XMTYPE, 
+	     0x80 | LSM9DS0_REGISTER_TEMP_OUT_L_XM, 
+	     2, buffer);
+  xlo = buffer[0];
+  xhi = buffer[1];
 
-    // Wait around until enough data is available
-    while (Wire.available() < 2);
-    
-    xlo = Wire.read();
-    xhi = Wire.read();
+  xhi <<= 8; xhi |= xlo;
+  
+  // Shift values to create properly formed integer (low byte first)
+  temperature = xhi;
 
-    xhi <<= 8; xhi |= xlo;
-
-    // Shift values to create properly formed integer (low byte first)
-    temperature = xhi;
-  }
-
+  
 }
 
 
@@ -461,8 +446,16 @@ void Adafruit_LSM9DS0::write8(boolean type, byte reg, byte value)
 
 byte Adafruit_LSM9DS0::read8(boolean type, byte reg)
 {
+  uint8_t value;
+
+  readBuffer(type, reg, 1, &value);
+
+  return value;
+}
+
+byte Adafruit_LSM9DS0::readBuffer(boolean type, byte reg, byte len, uint8_t *buffer)
+{
   byte address, _cs;
-  byte value;
 
   if (type == GYROTYPE) {
     address = LSM9DS0_ADDRESS_GYRO;
@@ -471,12 +464,19 @@ byte Adafruit_LSM9DS0::read8(boolean type, byte reg)
     address = LSM9DS0_ADDRESS_ACCELMAG;
     _cs = _csxm;
   }
+
   if (_i2c) {
     Wire.beginTransmission(address);
     Wire.write(reg);
     Wire.endTransmission();
-    Wire.requestFrom(address, (byte)1);
-    value = Wire.read();
+    Wire.requestFrom(address, (byte)len);
+
+    // Wait around until enough data is available
+    while (Wire.available() < len);
+
+    for (uint8_t i=0; i<len; i++) {
+      buffer[i] = Wire.read();
+    }
     Wire.endTransmission();
   } else {
     if (_clk == -1) {
@@ -486,14 +486,16 @@ byte Adafruit_LSM9DS0::read8(boolean type, byte reg)
     digitalWrite(_cs, LOW);
     // set address
     spixfer(reg | 0x80 | 0x40); // read multiple
-    value = spixfer(0); 
+    for (uint8_t i=0; i<len; i++) {
+      buffer[i] = spixfer(0);
+    }
     digitalWrite(_cs, HIGH);
     if (_clk == -1) {
       SPCR = SPCRback;
     }
   }
 
-  return value;
+  return len;
 }
 
 uint8_t Adafruit_LSM9DS0::spixfer(uint8_t data) {
