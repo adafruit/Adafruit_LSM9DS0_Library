@@ -98,6 +98,7 @@ class Adafruit_LSM9DS0
       LSM9DS0_REGISTER_WHO_AM_I_XM         = 0x0F,
       LSM9DS0_REGISTER_INT_CTRL_REG_M      = 0x12,
       LSM9DS0_REGISTER_INT_SRC_REG_M       = 0x13,
+      LSM9DS0_REGISTER_CTRL_REG0_XM        = 0x1F,
       LSM9DS0_REGISTER_CTRL_REG1_XM        = 0x20,
       LSM9DS0_REGISTER_CTRL_REG2_XM        = 0x21,
       LSM9DS0_REGISTER_CTRL_REG5_XM        = 0x24,
@@ -109,6 +110,8 @@ class Adafruit_LSM9DS0
       LSM9DS0_REGISTER_OUT_Y_H_A           = 0x2B,
       LSM9DS0_REGISTER_OUT_Z_L_A           = 0x2C,
       LSM9DS0_REGISTER_OUT_Z_H_A           = 0x2D,
+      FIFO_SRC_REG		                     = 0x2F,
+      FIFO_CTRL_REG                        = 0x2E,
     } lsm9ds0MagAccelRegisters_t;
 
     typedef enum
@@ -159,25 +162,26 @@ class Adafruit_LSM9DS0
       LSM9DS0_GYROSCALE_500DPS             = (0b01 << 4),  // +/- 500 degrees per second rotation
       LSM9DS0_GYROSCALE_2000DPS            = (0b10 << 4)   // +/- 2000 degrees per second rotation
     } lsm9ds0GyroScale_t;
-    
+
     typedef struct vector_s
     {
       float x;
       float y;
       float z;
     } lsm9ds0Vector_t;
-    
-    lsm9ds0Vector_t accelData;    // Last read accelerometer data will be available here
+
+    lsm9ds0Vector_t accelData;    // Last read accelerometer data will be available here (or not! in fact, don't count on it)
     lsm9ds0Vector_t magData;      // Last read magnetometer data will be available here
     lsm9ds0Vector_t gyroData;     // Last read gyroscope data will be available here
     int16_t         temperature;  // Last read temperzture data will be available here
-    
+
     bool    begin       ( void );
     void    read        ( void );
     void    readAccel   ( void );
     void    readMag     ( void );
     void    readGyro    ( void );
     void    readTemp    ( void );
+    void    enableFIFO  ( void );
     void    setupAccel  ( lsm9ds0AccelRange_t range );
     void    setupMag    ( lsm9ds0MagGain_t gain );
     void    setupGyro   ( lsm9ds0GyroScale_t scale );
@@ -185,11 +189,12 @@ class Adafruit_LSM9DS0
     byte    read8       ( boolean type, byte reg);
     byte    readBuffer  ( boolean type, byte reg, byte len, uint8_t *buffer);
     uint8_t spixfer     ( uint8_t data );
-    
+    int     fifoSamples ( void );
+
     /* Adafruit Unified Sensor Functions (not standard yet ... the current base class only */
     /* supports one sensor type, and we need to update the unified base class to support   */
     /* multiple sensors in a single driver, returning an array */
-    void getEvent  ( sensors_event_t* accel, sensors_event_t* mag, sensors_event_t* gyro, sensors_event_t* temp );    
+    void getEvent  ( sensors_event_t* accel, sensors_event_t* mag, sensors_event_t* gyro, sensors_event_t* temp );
     void getSensor ( sensor_t* accel, sensor_t* mag, sensor_t* gyro, sensor_t* temp );
 
     /* Subclass to expose each sensor on the LSM9DS0 as an Adafruit_Sensor instance. */
