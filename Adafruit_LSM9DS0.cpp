@@ -455,10 +455,13 @@ void Adafruit_LSM9DS0::getAccelEvent(sensors_event_t* event, uint32_t timestamp)
   event->timestamp = timestamp;
   event->acceleration.x = accelData.x * _accel_mg_lsb;
   event->acceleration.x /= 1000;
+  event->acceleration.x *= SENSORS_GRAVITY_STANDARD;
   event->acceleration.y = accelData.y * _accel_mg_lsb;
   event->acceleration.y /= 1000;
+  event->acceleration.y *= SENSORS_GRAVITY_STANDARD;
   event->acceleration.z = accelData.z * _accel_mg_lsb;
   event->acceleration.z /= 1000;
+  event->acceleration.z *= SENSORS_GRAVITY_STANDARD;
 }
 
 void Adafruit_LSM9DS0::getMagEvent(sensors_event_t* event, uint32_t timestamp) {
