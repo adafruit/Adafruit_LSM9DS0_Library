@@ -9,8 +9,10 @@
   please support Adafruit andopen-source hardware by purchasing products
   from Adafruit!
 
-  Written by Kevin Townsend for Adafruit Industries.  
+  Written by Kevin Townsend for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
+
+  FIFO and API extensions by Matt Mills, 2014. Same License.
  ***************************************************************************/
 #include <Adafruit_LSM9DS0.h>
 
@@ -142,20 +144,34 @@ void Adafruit_LSM9DS0::read()
   readTemp();
 }
 
+
+int Adafruit_LSM9DS0::fifoSamples(){
+  return (int(read8(XMTYPE, FIFO_SRC_REG) & 0x1F));
+}
+
+void Adafruit_LSM9DS0::enableFIFO(){
+  write8(XMTYPE, FIFO_CTRL_REG, 0b01111111);                // Enable FIFO and set watermark at 32 samples
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG0_XM, 0b01100000 );  // Enable accelerometer FIFO
+  delay(20);                                                 // Wait for change to take effect
+}
+
 void Adafruit_LSM9DS0::readAccel() {
   // Read the accelerometer
+  // we read 6 bytes of data (16 bits x, 16 bits y, 16 bits z)
   byte buffer[6];
-  readBuffer(XMTYPE, 
-       0x80 | LSM9DS0_REGISTER_OUT_X_L_A, 
+  readBuffer(XMTYPE,
+       0x80 | LSM9DS0_REGISTER_OUT_X_L_A,
        6, buffer);
-  
+
   uint8_t xlo = buffer[0];
   int16_t xhi = buffer[1];
   uint8_t ylo = buffer[2];
   int16_t yhi = buffer[3];
   uint8_t zlo = buffer[4];
   int16_t zhi = buffer[5];
-  
+
+  // "The value is expressed in 16 bit as two’s complement left justified" -- the datasheet
+  // two's compliment, for those about to google, is a way of expressing negative numbers without a sign bit.
   // Shift values to create properly formed integer (low byte first)
   xhi <<= 8; xhi |= xlo;
   yhi <<= 8; yhi |= ylo;
