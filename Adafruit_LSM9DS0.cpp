@@ -308,7 +308,7 @@ void Adafruit_LSM9DS0::setupGyro ( lsm9ds0GyroScale_t scale )
     @brief  Gets the most recent accel sensor event
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::getEvent(sensors_event_t *accelEvent,
+bool Adafruit_LSM9DS0::getEvent(sensors_event_t *accelEvent,
                                 sensors_event_t *magEvent,
                                 sensors_event_t *gyroEvent,
                                 sensors_event_t *tempEvent )
@@ -322,6 +322,8 @@ void Adafruit_LSM9DS0::getEvent(sensors_event_t *accelEvent,
   if (magEvent)   getMagEvent(magEvent, timestamp);
   if (gyroEvent)  getGyroEvent(gyroEvent, timestamp);
   if (tempEvent)  getTempEvent(tempEvent, timestamp);
+  
+  return true;
 }
 
 /**************************************************************************/

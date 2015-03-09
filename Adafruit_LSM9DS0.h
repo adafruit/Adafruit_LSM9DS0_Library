@@ -189,7 +189,7 @@ class Adafruit_LSM9DS0
     /* Adafruit Unified Sensor Functions (not standard yet ... the current base class only */
     /* supports one sensor type, and we need to update the unified base class to support   */
     /* multiple sensors in a single driver, returning an array */
-    void getEvent  ( sensors_event_t* accel, sensors_event_t* mag, sensors_event_t* gyro, sensors_event_t* temp );    
+    bool getEvent  ( sensors_event_t* accel, sensors_event_t* mag, sensors_event_t* gyro, sensors_event_t* temp );    
     void getSensor ( sensor_t* accel, sensor_t* mag, sensor_t* gyro, sensor_t* temp );
 
     /* Subclass to expose each sensor on the LSM9DS0 as an Adafruit_Sensor instance. */
@@ -209,7 +209,7 @@ class Adafruit_LSM9DS0
         _eventFunc(eventFunc),
         _sensorFunc(sensorFunc)
       {}
-      virtual void getEvent(sensors_event_t* event) {
+      virtual bool getEvent(sensors_event_t* event) {
         /* Take new reading. */
         (_parent->*_readFunc)();
         /* Fill in event data. */
