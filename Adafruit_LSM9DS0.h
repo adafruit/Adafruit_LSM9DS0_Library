@@ -67,8 +67,12 @@ class Adafruit_LSM9DS0
 {
   public:
     Adafruit_LSM9DS0 ( int32_t sensorID = 0 );
+    Adafruit_LSM9DS0 ( TwoWire* wireBus, int32_t sensorID = 0 );
     Adafruit_LSM9DS0 ( int8_t xmcs, int8_t gcs, int32_t sensorID = 0 );
     Adafruit_LSM9DS0 ( int8_t clk, int8_t miso, int8_t mosi, int8_t xmcs, int8_t gcs, int32_t sensorID = 0 );
+    
+    void initI2C( TwoWire* wireBus, int32_t sensorID );
+
 
     typedef enum
     {
@@ -235,6 +239,7 @@ class Adafruit_LSM9DS0
 
   private:
     boolean _i2c;
+    TwoWire* _wire;
     int8_t  _csg, _csxm, _mosi, _miso, _clk;
     uint8_t mySPCR, SPCRback;
     float   _accel_mg_lsb;
