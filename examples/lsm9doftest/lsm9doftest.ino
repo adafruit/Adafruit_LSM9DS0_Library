@@ -34,8 +34,9 @@ void setupSensor()
 
 void setup() 
 {
-  while (!Serial); // flora & leonardo
-  
+#ifndef ESP8266
+  while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
+#endif
   Serial.begin(9600);
   Serial.println("LSM raw read demo");
   
