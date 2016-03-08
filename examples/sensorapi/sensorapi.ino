@@ -142,8 +142,9 @@ void configureSensor(void)
 /**************************************************************************/
 void setup(void) 
 {
-  while (!Serial);  // wait for flora/leonardo
-  
+#ifndef ESP8266
+  while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
+#endif
   Serial.begin(9600);
   Serial.println(F("LSM9DS0 9DOF Sensor Test")); Serial.println("");
   
