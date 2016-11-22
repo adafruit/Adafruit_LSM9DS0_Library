@@ -218,6 +218,7 @@ class Adafruit_LSM9DS0
         (_parent->*_readFunc)();
         /* Fill in event data. */
         (_parent->*_eventFunc)(event, millis());
+        return true;
       }
       virtual void getSensor(sensor_t* sensor) {
         /* Fill in sensor metadata. */
