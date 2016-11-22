@@ -96,16 +96,15 @@ bool Adafruit_LSM9DS0::begin()
     digitalWrite(_csg, HIGH);
     digitalWrite(_clk, HIGH);
   }
-
   uint8_t id = read8(XMTYPE, LSM9DS0_REGISTER_WHO_AM_I_XM);
 //  Serial.print ("XM whoami: 0x");
-//   Serial.println(id, HEX);
+//  Serial.println(id, HEX);
   if (id != LSM9DS0_XM_ID)
     return false;
 
   id = read8(GYROTYPE, LSM9DS0_REGISTER_WHO_AM_I_G);
-//   Serial.print ("G whoami: 0x");
-//   Serial.println(id, HEX);
+//  Serial.print ("G whoami: 0x");
+//  Serial.println(id, HEX);
   if (id != LSM9DS0_G_ID)
     return false;
 
@@ -403,7 +402,7 @@ byte Adafruit_LSM9DS0::readBuffer(boolean type, byte reg, byte len, uint8_t *buf
     _wire->beginTransmission(address);
     _wire->write(reg);
     _wire->endTransmission();
-    _wire->requestFrom(address, (byte)len);
+    len = _wire->requestFrom(address, (byte)len);
 
     // Wait around until enough data is available
     while (_wire->available() < len);
@@ -411,7 +410,6 @@ byte Adafruit_LSM9DS0::readBuffer(boolean type, byte reg, byte len, uint8_t *buf
     for (uint8_t i=0; i<len; i++) {
       buffer[i] = _wire->read();
     }
-    _wire->endTransmission();
   } else {
     SPI.beginTransaction(SPISettings(200000, MSBFIRST, SPI_MODE0));
     digitalWrite(_cs, LOW);
