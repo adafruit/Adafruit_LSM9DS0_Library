@@ -405,13 +405,9 @@ byte Adafruit_LSM9DS0::readBuffer(boolean type, byte reg, byte len, uint8_t *buf
     _wire->endTransmission();
     _wire->requestFrom(address, (byte)len);
 
-    // Wait around until enough data is available
-    while (_wire->available() < len);
-
     for (uint8_t i=0; i<len; i++) {
       buffer[i] = _wire->read();
     }
-    _wire->endTransmission();
   } else {
     SPI.beginTransaction(SPISettings(200000, MSBFIRST, SPI_MODE0));
     digitalWrite(_cs, LOW);
