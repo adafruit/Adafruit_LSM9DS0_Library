@@ -398,12 +398,18 @@ byte Adafruit_LSM9DS0::readBuffer(boolean type, byte reg, byte len, uint8_t *buf
     address = LSM9DS0_ADDRESS_ACCELMAG;
     _cs = _csxm;
   }
+    
+    
 
   if (_i2c) {
-    _wire->beginTransmission(address);
-    _wire->write(reg);
-    _wire->endTransmission();
-    _wire->requestFrom(address, (byte)len);
+#ifdef __SAM3X8E__
+      _wire->requestFrom(address, len, reg, 1, true); //see http://forum.arduino.cc/index.php?topic=385377.msg2947227#msg2947227
+#else
+      _wire->beginTransmission(address);
+      _wire->write(reg);
+      _wire->endTransmission();
+      _wire->requestFrom(address, (byte)len);
+#endif
 
     for (uint8_t i=0; i<len; i++) {
       buffer[i] = _wire->read();
