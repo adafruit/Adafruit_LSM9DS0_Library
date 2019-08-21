@@ -213,7 +213,7 @@ class Adafruit_LSM9DS0
         _eventFunc(eventFunc),
         _sensorFunc(sensorFunc)
       {}
-      virtual bool getEvent(sensors_event_t* event) {
+      virtual void getEvent(sensors_event_t* event) {
         /* Take new reading. */
         (_parent->*_readFunc)();
         /* Fill in event data. */
