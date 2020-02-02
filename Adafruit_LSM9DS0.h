@@ -210,11 +210,11 @@ public:
         : _parent(parent), _readFunc(readFunc), _eventFunc(eventFunc),
           _sensorFunc(sensorFunc) {}
     virtual bool getEvent(sensors_event_t *event) {
-        /* Take new reading. */
-        (_parent->*_readFunc)();
-        /* Fill in event data. */
-        (_parent->*_eventFunc)(event, millis());
-        return true;
+      /* Take new reading. */
+      (_parent->*_readFunc)();
+      /* Fill in event data. */
+      (_parent->*_eventFunc)(event, millis());
+      return true;
     }
     virtual void getSensor(sensor_t *sensor) {
       /* Fill in sensor metadata. */
