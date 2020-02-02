@@ -486,9 +486,9 @@ void Adafruit_LSM9DS0::getGyroEvent(sensors_event_t* event, uint32_t timestamp) 
   event->sensor_id = _lsm9dso_sensorid_accel;
   event->type      = SENSOR_TYPE_GYROSCOPE;
   event->timestamp = timestamp;
-  event->gyro.x = gyroData.x * _gyro_dps_digit;
-  event->gyro.y = gyroData.y * _gyro_dps_digit;
-  event->gyro.z = gyroData.z * _gyro_dps_digit;
+  event->gyro.x = gyroData.x * _gyro_dps_digit * SENSORS_DPS_TO_RADS;
+  event->gyro.y = gyroData.y * _gyro_dps_digit * SENSORS_DPS_TO_RADS;
+  event->gyro.z = gyroData.z * _gyro_dps_digit * SENSORS_DPS_TO_RADS;
 }
 
 void Adafruit_LSM9DS0::getTempEvent(sensors_event_t* event, uint32_t timestamp) {

@@ -188,12 +188,12 @@ void loop(void)
   // print out magnetometer data
   Serial.print("Magn. X: "); Serial.print(mag.magnetic.x); Serial.print(" ");
   Serial.print("  \tY: "); Serial.print(mag.magnetic.y);       Serial.print(" ");
-  Serial.print("  \tZ: "); Serial.print(mag.magnetic.z);     Serial.println("  \tgauss");
+  Serial.print("  \tZ: "); Serial.print(mag.magnetic.z);     Serial.println("  \tuT");
   
   // print out gyroscopic data
   Serial.print("Gyro  X: "); Serial.print(gyro.gyro.x); Serial.print(" ");
   Serial.print("  \tY: "); Serial.print(gyro.gyro.y);       Serial.print(" ");
-  Serial.print("  \tZ: "); Serial.print(gyro.gyro.z);     Serial.println("  \tdps");
+  Serial.print("  \tZ: "); Serial.print(gyro.gyro.z);     Serial.println("  \trad/s");
 
   // print out temperature data
   Serial.print("Temp: "); Serial.print(temp.temperature); Serial.println(" *C");
