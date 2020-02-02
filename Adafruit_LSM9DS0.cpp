@@ -606,12 +606,9 @@ void Adafruit_LSM9DS0::getMagEvent(sensors_event_t *event, uint32_t timestamp) {
   event->sensor_id = _lsm9dso_sensorid_mag;
   event->type = SENSOR_TYPE_MAGNETIC_FIELD;
   event->timestamp = timestamp;
-  event->magnetic.x = magData.x * _mag_mgauss_lsb;
-  event->magnetic.x /= 1000;
-  event->magnetic.y = magData.y * _mag_mgauss_lsb;
-  event->magnetic.y /= 1000;
-  event->magnetic.z = magData.z * _mag_mgauss_lsb;
-  event->magnetic.z /= 1000;
+  event->magnetic.x = magData.x * _mag_mgauss_lsb / 10;
+  event->magnetic.y = magData.y * _mag_mgauss_lsb / 10;
+  event->magnetic.z = magData.z * _mag_mgauss_lsb / 10;
 }
 
 /**************************************************************************/
