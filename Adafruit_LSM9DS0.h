@@ -1,17 +1,8 @@
-/***************************************************************************
-  This is a library for the LSM9DS0 Accelerometer and magnentometer/compass
+/*!
+ * @file Adafruit_LSM9DS0.h
+ *
+ */
 
-  Designed specifically to work with the Adafruit LSM9DS0 Breakouts
-
-  These sensors use I2C to communicate, 2 pins are required to interface.
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit andopen-source hardware by purchasing products
-  from Adafruit!
-
-  Written by Kevin Townsend for Adafruit Industries.
-  BSD license, all text above must be included in any redistribution
- ***************************************************************************/
 #ifndef __LSM9DS0_H__
 #define __LSM9DS0_H__
 
