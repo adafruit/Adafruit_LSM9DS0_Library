@@ -1,5 +1,5 @@
 /*!
- * @file Adafruit_LSM9DS0
+ * @file Adafruit_LSM9DS0.cpp
  *
  * @mainpage Adafruit LSM9DS0 Accelerometer
  *
