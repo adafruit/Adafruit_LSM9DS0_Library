@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['lm9ds0acceldatarate_5ft',['lm9ds0AccelDataRate_t',['../class_adafruit___l_s_m9_d_s0.html#a73b64a4b346c7bdd0fbcb3912ecd2332',1,'Adafruit_LSM9DS0']]],
   ['lsm9ds0_5faccel_5fmg_5flsb_5f16g',['LSM9DS0_ACCEL_MG_LSB_16G',['../_adafruit___l_s_m9_d_s0_8h.html#adfbd185c1a6544b94e3d888bf6adcaac',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5faccel_5fmg_5flsb_5f2g',['LSM9DS0_ACCEL_MG_LSB_2G',['../_adafruit___l_s_m9_d_s0_8h.html#a041a3fc4c9086b8e0a9efe9d2dcf59f5',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5faccel_5fmg_5flsb_5f4g',['LSM9DS0_ACCEL_MG_LSB_4G',['../_adafruit___l_s_m9_d_s0_8h.html#ab7af0d8b205b84ada9c24738338d8031',1,'Adafruit_LSM9DS0.h']]],
@@ -9,8 +8,6 @@ var searchData=
   ['lsm9ds0_5faddress_5faccelmag',['LSM9DS0_ADDRESS_ACCELMAG',['../_adafruit___l_s_m9_d_s0_8h.html#ac42bed28ddceb742683bec6067555994',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5faddress_5fgyro',['LSM9DS0_ADDRESS_GYRO',['../_adafruit___l_s_m9_d_s0_8h.html#a66f8cf08d3c2f6c521f790e1ce36f35e',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fg_5fid',['LSM9DS0_G_ID',['../_adafruit___l_s_m9_d_s0_8h.html#a6f724eb88e3e8a0f2b625f98066dc1ad',1,'Adafruit_LSM9DS0.h']]],
-  ['lsm9ds0_5fget_5fevent_5ffunc',['lsm9ds0_get_event_func',['../_adafruit___l_s_m9_d_s0_8h.html#a7bbeb72afc782ed3641b5bd04538b974',1,'Adafruit_LSM9DS0.h']]],
-  ['lsm9ds0_5fget_5fsensor_5ffunc',['lsm9ds0_get_sensor_func',['../_adafruit___l_s_m9_d_s0_8h.html#ac5003bc6af1edd7cba4a62ae13f162d0',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fgyro_5fdps_5fdigit_5f2000dps',['LSM9DS0_GYRO_DPS_DIGIT_2000DPS',['../_adafruit___l_s_m9_d_s0_8h.html#ad45e337f06b3c899d601648c95e4dc0d',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fgyro_5fdps_5fdigit_5f245dps',['LSM9DS0_GYRO_DPS_DIGIT_245DPS',['../_adafruit___l_s_m9_d_s0_8h.html#ac58ce3817339a324d9b2fc1d951300fe',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fgyro_5fdps_5fdigit_5f500dps',['LSM9DS0_GYRO_DPS_DIGIT_500DPS',['../_adafruit___l_s_m9_d_s0_8h.html#a08979694b213d40a69cc698bbc1fde20',1,'Adafruit_LSM9DS0.h']]],
@@ -18,14 +15,6 @@ var searchData=
   ['lsm9ds0_5fmag_5fmgauss_5f2gauss',['LSM9DS0_MAG_MGAUSS_2GAUSS',['../_adafruit___l_s_m9_d_s0_8h.html#a13901eae72708e3804e1336e5ab58f19',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fmag_5fmgauss_5f4gauss',['LSM9DS0_MAG_MGAUSS_4GAUSS',['../_adafruit___l_s_m9_d_s0_8h.html#a1d2a8d2300dbf92bba7f0e198ff07819',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5fmag_5fmgauss_5f8gauss',['LSM9DS0_MAG_MGAUSS_8GAUSS',['../_adafruit___l_s_m9_d_s0_8h.html#a9b2253a18295824fc40c5d06240d1445',1,'Adafruit_LSM9DS0.h']]],
-  ['lsm9ds0_5fread_5ffunc',['lsm9ds0_read_func',['../_adafruit___l_s_m9_d_s0_8h.html#a3f7aeafe12ee6502ee63fe96093cd64b',1,'Adafruit_LSM9DS0.h']]],
   ['lsm9ds0_5ftemp_5flsb_5fdegree_5fcelsius',['LSM9DS0_TEMP_LSB_DEGREE_CELSIUS',['../_adafruit___l_s_m9_d_s0_8h.html#ae3dc84d557e057ddfbd2709f44086b7d',1,'Adafruit_LSM9DS0.h']]],
-  ['lsm9ds0_5fxm_5fid',['LSM9DS0_XM_ID',['../_adafruit___l_s_m9_d_s0_8h.html#a5eb9c3c6070ebd85d3959d547ad39b66',1,'Adafruit_LSM9DS0.h']]],
-  ['lsm9ds0accelrange_5ft',['lsm9ds0AccelRange_t',['../class_adafruit___l_s_m9_d_s0.html#af8c80ff90174c93c41026783127ca6cb',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0gyroregisters_5ft',['lsm9ds0GyroRegisters_t',['../class_adafruit___l_s_m9_d_s0.html#a762badc9f5709cd262d27ade78cc6a53',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0gyroscale_5ft',['lsm9ds0GyroScale_t',['../class_adafruit___l_s_m9_d_s0.html#a4dc5cfc3664e8957769d554387a050d7',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0magaccelregisters_5ft',['lsm9ds0MagAccelRegisters_t',['../class_adafruit___l_s_m9_d_s0.html#ae3f875a17cab459274c7bc8c9d605352',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0magdatarate_5ft',['lsm9ds0MagDataRate_t',['../class_adafruit___l_s_m9_d_s0.html#a08c186d20640efb221bc04fd9dba822e',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0maggain_5ft',['lsm9ds0MagGain_t',['../class_adafruit___l_s_m9_d_s0.html#a95feb15014740fcbd80233cea7e0e39b',1,'Adafruit_LSM9DS0']]],
-  ['lsm9ds0vector_5ft',['lsm9ds0Vector_t',['../class_adafruit___l_s_m9_d_s0.html#a81de718ea89dc982d5537675b78aa0f9',1,'Adafruit_LSM9DS0']]]
+  ['lsm9ds0_5fxm_5fid',['LSM9DS0_XM_ID',['../_adafruit___l_s_m9_d_s0_8h.html#a5eb9c3c6070ebd85d3959d547ad39b66',1,'Adafruit_LSM9DS0.h']]]
 ];
