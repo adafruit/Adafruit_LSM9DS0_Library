@@ -1,17 +1,8 @@
-/***************************************************************************
-  This is a library for the LSM9DS0 Accelerometer and magnentometer/compass
+/*!
+ * @file Adafruit_LSM9DS0.h
+ *
+ */
 
-  Designed specifically to work with the Adafruit LSM9DS0 Breakouts
-
-  These sensors use I2C to communicate, 2 pins are required to interface.
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit andopen-source hardware by purchasing products
-  from Adafruit!
-
-  Written by Kevin Townsend for Adafruit Industries.
-  BSD license, all text above must be included in any redistribution
- ***************************************************************************/
 #ifndef __LSM9DS0_H__
 #define __LSM9DS0_H__
 
@@ -24,34 +15,47 @@
 #include <Adafruit_Sensor.h>
 #include <SPI.h>
 
-#define LSM9DS0_ADDRESS_ACCELMAG (0x1D) // 3B >> 1 = 7bit default
-#define LSM9DS0_ADDRESS_GYRO (0x6B)     // D6 >> 1 = 7bit default
-#define LSM9DS0_XM_ID (0b01001001)
-#define LSM9DS0_G_ID (0b11010100)
+#define LSM9DS0_ADDRESS_ACCELMAG (0x1D) //!< 3B >> 1 = 7bit default
+#define LSM9DS0_ADDRESS_GYRO (0x6B)     //!< D6 >> 1 = 7bit default
+#define LSM9DS0_XM_ID                                                          \
+  (0b01001001) //!< Accelerometer & magnetometer ID register, WHO_AM_I_XM
+#define LSM9DS0_G_ID (0b11010100) //!< Gyroscope ID register, WHO_AM_I_G
 
 // Linear Acceleration: mg per LSB
-#define LSM9DS0_ACCEL_MG_LSB_2G (0.061F)
-#define LSM9DS0_ACCEL_MG_LSB_4G (0.122F)
-#define LSM9DS0_ACCEL_MG_LSB_6G (0.183F)
-#define LSM9DS0_ACCEL_MG_LSB_8G (0.244F)
-#define LSM9DS0_ACCEL_MG_LSB_16G (0.732F) // Is this right? Was expecting 0.488F
+#define LSM9DS0_ACCEL_MG_LSB_2G                                                \
+  (0.061F) //!< Linear acceleration sensitivity FS=+-2g
+#define LSM9DS0_ACCEL_MG_LSB_4G                                                \
+  (0.122F) //!< Linear acceleration sensitivity FS=+-4g
+
+#define LSM9DS0_ACCEL_MG_LSB_6G                                                \
+  (0.183F) //!< Linear acceleration sensitivity FS=+-6g
+#define LSM9DS0_ACCEL_MG_LSB_8G                                                \
+  (0.244F) //!< Linear acceleration sensitivity FS=+-8g
+#define LSM9DS0_ACCEL_MG_LSB_16G                                               \
+  (0.732F) //!< Linear acceleration sensitivity FS=+-16g
 
 // Magnetic Field Strength: gauss range
-#define LSM9DS0_MAG_MGAUSS_2GAUSS (0.08F)
-#define LSM9DS0_MAG_MGAUSS_4GAUSS (0.16F)
-#define LSM9DS0_MAG_MGAUSS_8GAUSS (0.32F)
-#define LSM9DS0_MAG_MGAUSS_12GAUSS (0.48F)
+#define LSM9DS0_MAG_MGAUSS_2GAUSS (0.08F) //!< Magnetic sensitivity FS=+-2 gauss
+#define LSM9DS0_MAG_MGAUSS_4GAUSS (0.16F) //!< Magnetic sensitivity FS=+-4 gauss
+#define LSM9DS0_MAG_MGAUSS_8GAUSS (0.32F) //!< Magnetic sensitivity FS=+-8 gauss
+#define LSM9DS0_MAG_MGAUSS_12GAUSS                                             \
+  (0.48F) //!< Magnetic sensitivity FS=+-12 gauss
 
 // Angular Rate: dps per LSB
-#define LSM9DS0_GYRO_DPS_DIGIT_245DPS (0.00875F)
-#define LSM9DS0_GYRO_DPS_DIGIT_500DPS (0.01750F)
-#define LSM9DS0_GYRO_DPS_DIGIT_2000DPS (0.07000F)
+#define LSM9DS0_GYRO_DPS_DIGIT_245DPS                                          \
+  (0.00875F) //!< Angular rate sensitivity FS=+-245dps
+#define LSM9DS0_GYRO_DPS_DIGIT_500DPS                                          \
+  (0.01750F) //!< Angular rate sensitivity FS=+-500dps
+#define LSM9DS0_GYRO_DPS_DIGIT_2000DPS                                         \
+  (0.07000F) //!< Angular rate sensitivity FS=+-2000dps
 
 // Temperature: LSB per degree celsius
-#define LSM9DS0_TEMP_LSB_DEGREE_CELSIUS (8) // 1°C = 8, 25° = 200, etc.
+#define LSM9DS0_TEMP_LSB_DEGREE_CELSIUS                                        \
+  (8) //!< Temperature sensor output change vs. temperature. 1°C = 8, 25° = 200,
+      //!< etc.
 
-#define GYROTYPE (true)
-#define XMTYPE (false)
+#define GYROTYPE (true) //!< Used to enable gyroscope device
+#define XMTYPE (false)  //!< Used to enable accellerometer & magnetometer device
 
 /* Forward reference required for function pointers below. */
 class Adafruit_LSM9DS0;
@@ -60,10 +64,15 @@ class Adafruit_LSM9DS0;
  * used */
 /* by the Adafruit_LSM9DS0::Sensor class to read and retrieve individual
  * sensors. */
-typedef void (Adafruit_LSM9DS0::*lsm9ds0_read_func)(void);
-typedef void (Adafruit_LSM9DS0::*lsm9ds0_get_event_func)(sensors_event_t *,
-                                                         uint32_t);
-typedef void (Adafruit_LSM9DS0::*lsm9ds0_get_sensor_func)(sensor_t *);
+typedef void (Adafruit_LSM9DS0::*lsm9ds0_read_func)(
+    void); //!< Pointer to member functions to read. Used by
+           //!< Adafruit_LSM9DS0::Sensor class.
+typedef void (Adafruit_LSM9DS0::*lsm9ds0_get_event_func)(
+    sensors_event_t *, uint32_t); //!< Pointer to member functions to get event.
+                                  //!< Used by Adafruit_LSM9DS0::Sensor class.
+typedef void (Adafruit_LSM9DS0::*lsm9ds0_get_sensor_func)(
+    sensor_t *); //!< Pointer to member functions to get sensor function. Used
+                 //!< by Adafruit_LSM9DS0::Sensor class.
 
 /**! Interface object for LSM9DS0 9-DoF sensor */
 class Adafruit_LSM9DS0 {
