@@ -199,6 +199,14 @@ public:
   void setupAccel(lsm9ds0AccelRange_t range);
   void setupMag(lsm9ds0MagGain_t gain);
   void setupGyro(lsm9ds0GyroScale_t scale);
+  void powerDown(void);
+  void powerUp(void);
+  void powerAccelDown(void);
+  void powerAccelUp(void);
+  void powerMagDown(void);
+  void powerMagUp(void);
+  void powerGyroDown(void);
+  void powerGyroUp(void);
 
   /* Adafruit Unified Sensor Functions (not standard yet ... the current base
    * class only */
