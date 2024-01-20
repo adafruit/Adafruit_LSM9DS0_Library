@@ -424,8 +424,7 @@ void Adafruit_LSM9DS0::setupGyro(lsm9ds0GyroScale_t scale) {
     @brief Power the accelerometer, magnetomer and gyroscope down
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerDown(void)
-{
+void Adafruit_LSM9DS0::powerDown(void) {
   powerAccelDown();
   powerMagDown();
   powerGyroDown();
@@ -436,8 +435,7 @@ void Adafruit_LSM9DS0::powerDown(void)
     @brief Power the accelerometer, magnetomer and gyroscope up
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerUp(void)
-{
+void Adafruit_LSM9DS0::powerUp(void) {
   powerAccelUp();
   powerMagUp();
   powerGyroUp();
@@ -448,8 +446,7 @@ void Adafruit_LSM9DS0::powerUp(void)
     @brief Power the accelerometer down
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerAccelDown(void)
-{
+void Adafruit_LSM9DS0::powerAccelDown(void) {
   uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM);
   const uint8_t CTRL_REG1_XM_ADOR_MASK = 0xF0;
   const uint8_t CTRL_REG1_XM_AODR_POWER_DOWN = 0x00;
@@ -465,8 +462,7 @@ void Adafruit_LSM9DS0::powerAccelDown(void)
     @brief Power the accelerometer up
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerAccelUp(void)
-{
+void Adafruit_LSM9DS0::powerAccelUp(void) {
   uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM);
   const uint8_t CTRL_REG1_XM_ADOR_MASK = 0xF0;
   const uint8_t CTRL_REG1_XM_AODR_100_HZ = 0x60;
@@ -482,8 +478,7 @@ void Adafruit_LSM9DS0::powerAccelUp(void)
     @brief Power the magnetometer down
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerMagDown(void)
-{
+void Adafruit_LSM9DS0::powerMagDown(void) {
   uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM);
   const uint8_t CTRL_REG7_XM_MD_MASK = 0x03;
   const uint8_t CTRL_REG7_XM_MD_POWER_DOWN = 0x03;
@@ -499,8 +494,7 @@ void Adafruit_LSM9DS0::powerMagDown(void)
     @brief Power the magnetometer up
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerMagUp(void)
-{
+void Adafruit_LSM9DS0::powerMagUp(void) {
   uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM);
   const uint8_t CTRL_REG7_XM_MD_MASK = 0x03;
   const uint8_t CTRL_REG7_XM_MD_CONTINUOUIS_CONVERSION = 0x00;
@@ -516,8 +510,7 @@ void Adafruit_LSM9DS0::powerMagUp(void)
     @brief Power the gyroscope down
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerGyroDown(void)
-{
+void Adafruit_LSM9DS0::powerGyroDown(void) {
   uint8_t value = read8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G);
   const uint8_t CTRL_REG1_G_PD_MASK = 0x08;
   const uint8_t CTRL_REG1_G_PD_POWER_DOWN = 0x00;
@@ -533,8 +526,7 @@ void Adafruit_LSM9DS0::powerGyroDown(void)
     @brief Power the gyroscope up
 */
 /**************************************************************************/
-void Adafruit_LSM9DS0::powerGyroUp(void)
-{
+void Adafruit_LSM9DS0::powerGyroUp(void) {
   uint8_t value = read8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G);
   const uint8_t CTRL_REG1_G_PD_MASK = 0x08;
   const uint8_t CTRL_REG1_G_PD_NORMAL = 0x08;
