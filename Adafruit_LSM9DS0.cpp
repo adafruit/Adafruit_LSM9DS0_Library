@@ -419,6 +419,132 @@ void Adafruit_LSM9DS0::setupGyro(lsm9ds0GyroScale_t scale) {
   }
 }
 
+/**************************************************************************/
+/*!
+    @brief Power the accelerometer, magnetomer and gyroscope down
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerDown(void)
+{
+  powerAccelDown();
+  powerMagDown();
+  powerGyroDown();
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the accelerometer, magnetomer and gyroscope up
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerUp(void)
+{
+  powerAccelUp();
+  powerMagUp();
+  powerGyroUp();
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the accelerometer down
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerAccelDown(void)
+{
+  uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM);
+  const uint8_t CTRL_REG1_XM_ADOR_MASK = 0xF0;
+  const uint8_t CTRL_REG1_XM_AODR_POWER_DOWN = 0x00;
+
+  value &= ~(CTRL_REG1_XM_ADOR_MASK);
+  value |= CTRL_REG1_XM_AODR_POWER_DOWN;
+
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM, value);
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the accelerometer up
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerAccelUp(void)
+{
+  uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM);
+  const uint8_t CTRL_REG1_XM_ADOR_MASK = 0xF0;
+  const uint8_t CTRL_REG1_XM_AODR_100_HZ = 0x60;
+
+  value &= ~(CTRL_REG1_XM_ADOR_MASK);
+  value |= CTRL_REG1_XM_AODR_100_HZ;
+
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG1_XM, value);
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the magnetometer down
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerMagDown(void)
+{
+  uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM);
+  const uint8_t CTRL_REG7_XM_MD_MASK = 0x03;
+  const uint8_t CTRL_REG7_XM_MD_POWER_DOWN = 0x03;
+
+  value &= ~(CTRL_REG7_XM_MD_MASK);
+  value |= CTRL_REG7_XM_MD_POWER_DOWN;
+
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM, value);
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the magnetometer up
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerMagUp(void)
+{
+  uint8_t value = read8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM);
+  const uint8_t CTRL_REG7_XM_MD_MASK = 0x03;
+  const uint8_t CTRL_REG7_XM_MD_CONTINUOUIS_CONVERSION = 0x00;
+
+  value &= ~(CTRL_REG7_XM_MD_MASK);
+  value |= CTRL_REG7_XM_MD_CONTINUOUIS_CONVERSION;
+
+  write8(XMTYPE, LSM9DS0_REGISTER_CTRL_REG7_XM, value);
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the gyroscope down
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerGyroDown(void)
+{
+  uint8_t value = read8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G);
+  const uint8_t CTRL_REG1_G_PD_MASK = 0x08;
+  const uint8_t CTRL_REG1_G_PD_POWER_DOWN = 0x00;
+
+  value &= ~(CTRL_REG1_G_PD_MASK);
+  value |= CTRL_REG1_G_PD_POWER_DOWN;
+
+  write8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G, value);
+}
+
+/**************************************************************************/
+/*!
+    @brief Power the gyroscope up
+*/
+/**************************************************************************/
+void Adafruit_LSM9DS0::powerGyroUp(void)
+{
+  uint8_t value = read8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G);
+  const uint8_t CTRL_REG1_G_PD_MASK = 0x08;
+  const uint8_t CTRL_REG1_G_PD_NORMAL = 0x08;
+
+  value &= ~(CTRL_REG1_G_PD_MASK);
+  value |= CTRL_REG1_G_PD_NORMAL;
+
+  write8(GYROTYPE, LSM9DS0_REGISTER_CTRL_REG1_G, value);
+}
+
 /***************************************************************************
  UNIFIED SENSOR FUNCTIONS
  ***************************************************************************/
